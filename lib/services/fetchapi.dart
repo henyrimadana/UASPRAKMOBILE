@@ -8,8 +8,10 @@ class ApiDatas {
     'Charset': 'utf-8'
   };
   Future<Map> getData() async {
-    Response response = await get(Uri.parse(
-        "https://newsapi.org/v2/top-headlines?country=us&apiKey=2142e09042164d01be5d63e97dcd0dc6"),headers: headers);
+    Response response = await get(
+        Uri.parse(
+            "https://newsapi.org/v2/top-headlines?country=us&apiKey=1c862e10c5e74882ab88901cf1aeb027"),
+        headers: headers);
     Map data = jsonDecode(response.body);
     if (data.isNotEmpty) {
       print(data);
@@ -22,7 +24,7 @@ class ApiDatas {
 
   Future<Map> getDataByCategory(String category) async {
     Response response = await get(Uri.parse(
-        "https://newsapi.org/v2/top-headlines?apiKey=2142e09042164d01be5d63e97dcd0dc6&country=us&category=$category"));
+        "https://newsapi.org/v2/top-headlines?apiKey=1c862e10c5e74882ab88901cf1aeb027&country=us&category=$category"));
     Map data = jsonDecode(response.body);
     if (data.isNotEmpty) {
       print(data);

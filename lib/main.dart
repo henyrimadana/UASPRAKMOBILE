@@ -20,8 +20,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter News App UI',
-      theme: ThemeData(primarySwatch: Colors.grey),
+      title: 'GIGA NEWS BY HENY',
+      theme: ThemeData.dark().copyWith(
+        // Definisikan atribut-atribut tema gelap yang Anda inginkan di sini
+        // Contoh: warna latar belakang, warna teks, dll.
+        scaffoldBackgroundColor: Colors.black,
+        // Tambahkan pengaturan tema lainnya sesuai kebutuhan
+      ),
       initialRoute: '/',
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),

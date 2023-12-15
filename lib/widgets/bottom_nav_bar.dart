@@ -20,8 +20,8 @@ class BottomNavBar extends StatelessWidget {
       currentIndex: index,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.black.withAlpha(100),
+      selectedItemColor: Color(0xFF009688),
+      unselectedItemColor: Color.fromRGBO(255, 255, 255, 1).withAlpha(100),
       items: [
         BottomNavigationBarItem(
             icon: Container(
@@ -40,7 +40,7 @@ class BottomNavBar extends StatelessWidget {
                 Navigator.pushReplacementNamed(
                     context, DiscoverScreen.routeName);
               },
-              icon: const Icon(Icons.search),
+              icon: const Icon(Icons.category),
             ),
             label: 'Search'),
         BottomNavigationBarItem(

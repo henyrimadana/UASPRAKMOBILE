@@ -16,27 +16,25 @@ class LoginScreen extends StatelessWidget {
 
   final Map<String, String> users = {
     "heny": "heny123",
-    "reyhan": "reyhan123",
+
     // Tambahkan username dan password tambahan di sini
   };
 
   @override
-  // ignore: override_on_non_overriding_member
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(top: 150)),
+            Padding(padding: EdgeInsets.only(top: 50)),
 
-            Image.asset('assets/images/news.png'),
-            SizedBox(height: 20),
+            Image.asset('assets/images/giganews-login.png'),
+
             // Image.asset(''),
-            Text('LOGIN',
+            Text('SIGN IN',
                 style: GoogleFonts.inter(
                     fontSize: 20,
-                    color: Colors.black,
+                    color: Colors.orangeAccent,
                     fontWeight: FontWeight.bold)),
             SizedBox(height: 30),
             Text(
@@ -49,15 +47,16 @@ class LoginScreen extends StatelessWidget {
               child: TextField(
                 maxLength: 7,
                 controller: _usernameController,
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
                 decoration: InputDecoration(
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle:
+                      TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.tealAccent),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -74,13 +73,7 @@ class LoginScreen extends StatelessWidget {
               child: TextField(
                 obscureText: true,
                 controller: _passwordController,
-                style: TextStyle(
-                    color: Color.fromARGB(
-                  255,
-                  0,
-                  0,
-                  0,
-                )),
+                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
                 decoration: InputDecoration(
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: OutlineInputBorder(
@@ -88,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.teal),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -98,7 +91,7 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(16.0),
-                primary: Color.fromARGB(255, 217, 219, 217),
+                primary: Color(0xFF0093A9),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -121,7 +114,12 @@ class LoginScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Color.fromARGB(255, 255, 15, 15),
-                      content: Text('Incorrect Username or Password'),
+                      content: Text(
+                        'Incorrect Username or Password',
+                        style: TextStyle(
+                            color: Colors
+                                .white), // Mengubah warna teks menjadi putih
+                      ),
                     ),
                   );
                 }
@@ -129,6 +127,7 @@ class LoginScreen extends StatelessWidget {
               child: Text(
                 'LOGIN',
                 style: TextStyle(
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   letterSpacing: 2,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,

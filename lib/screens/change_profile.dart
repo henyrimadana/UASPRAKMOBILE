@@ -44,7 +44,19 @@ class _ChangeProfileState extends State<ChangeProfile> {
     Navigator.pop(context);
   }
 
-  Future<void> _deleteProfileData(String field) async {
+  Future<void> _deleteAllProfileData() async {
+    await _prefs.remove('email');
+    await _prefs.remove('age');
+    await _prefs.remove('address');
+    _emailController.clear();
+    _ageController.clear();
+    _addressController.clear();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('All profile data deleted!')),
+    );
+  }
+
+  Future<void> _deleteProfile(String field) async {
     switch (field) {
       case 'email':
         await _prefs.remove('email');
@@ -75,7 +87,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
   IconButton _buildDeleteButton(VoidCallback onPressed) {
     return IconButton(
       onPressed: onPressed,
-      icon: Icon(Icons.delete),
+      icon: Icon(Icons.close),
     );
   }
 
@@ -86,7 +98,17 @@ class _ChangeProfileState extends State<ChangeProfile> {
         Expanded(
           child: TextFormField(
             controller: controller,
-            decoration: InputDecoration(labelText: labelText),
+            decoration: InputDecoration(
+              labelText: labelText,
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors
+                        .orange), // Warna garis bawah input teks saat fokus
+              ),
+            ),
+            style: TextStyle(
+                color: const Color.fromARGB(
+                    255, 255, 255, 255)), // Warna teks input
           ),
         ),
         _buildDeleteButton(onPressed),
@@ -95,18 +117,11 @@ class _ChangeProfileState extends State<ChangeProfile> {
   }
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _ageController.dispose();
-    _addressController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Change Profile'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -114,20 +129,35 @@ class _ChangeProfileState extends State<ChangeProfile> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTextFieldWithDeleteButton(_emailController, 'Email', () {
-              _deleteProfileData('email');
+              _deleteProfile('email');
             }),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             _buildTextFieldWithDeleteButton(_ageController, 'Age', () {
-              _deleteProfileData('age');
+              _deleteProfile('age');
             }),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             _buildTextFieldWithDeleteButton(_addressController, 'Address', () {
-              _deleteProfileData('address');
+              _deleteProfile('address');
             }),
-            SizedBox(height: 20),
-            ElevatedButton(
+            SizedBox(height: 70),
+            ElevatedButton.icon(
               onPressed: _saveProfile,
-              child: Text('Save'),
+              icon: Icon(Icons.save,
+                  size: 30), // Icon baksampah dengan ukuran besar
+              label: Text('Save', style: TextStyle(fontSize: 20)),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal, // Warna latar belakang tombol hapus semua
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: _deleteAllProfileData,
+              icon: Icon(Icons.delete,
+                  size: 30), // Icon baksampah dengan ukuran besar
+              label: Text('Delete All', style: TextStyle(fontSize: 20)),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red, // Warna latar belakang tombol hapus semua
+              ),
             ),
           ],
         ),

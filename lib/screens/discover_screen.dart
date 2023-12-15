@@ -16,10 +16,10 @@ class DiscoverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> tabs = [
-      "Business",
       "Entertainment",
       "General",
       "Health",
+      "Business",
       "Science",
       "Sport",
       "Technology"
@@ -234,15 +234,15 @@ class _DiscoverNews extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Discover',
+            'Categories',
             style: Theme.of(context)
                 .textTheme
                 .headline4!
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w900),
+                .copyWith(color: Colors.teal, fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 5),
-          Text('News from all over the world',
-              style: Theme.of(context).textTheme.bodySmall!),
+          const SizedBox(height: 10),
+          Text('Find your news today!',
+              style: Theme.of(context).textTheme.displayLarge),
         ],
       ),
     );

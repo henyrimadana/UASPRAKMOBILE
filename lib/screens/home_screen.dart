@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tgs_pemrograman_mobile/models/article_model.dart';
 import 'package:tgs_pemrograman_mobile/screens/article_screen.dart';
 import 'package:tgs_pemrograman_mobile/screens/discover_screen.dart';
+import 'package:tgs_pemrograman_mobile/screens/profile.dart';
 import 'package:tgs_pemrograman_mobile/screens/settings.dart';
 import 'package:tgs_pemrograman_mobile/services/fetchapi.dart';
 import 'package:tgs_pemrograman_mobile/widgets/custom_tag.dart';
@@ -38,79 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer(); // Langkah 3
-          },
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 215, 219, 226),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    maxRadius: 35.0,
-                    backgroundImage: AssetImage('assets/images/news.png'),
-                  ),
-                  SizedBox(height: 15),
-                  Text("News Apps"),
-                  Text("find the latest news here"),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.newspaper),
-              title: Text("All News"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.list_alt),
-              title: Text("Categories"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DiscoverScreen()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Setting"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Setting()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text("Exit"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              },
-            ),
-            new Divider(),
-            ListTile(
-              leading: Icon(Icons.cancel),
-              // trailing: Icon(Icons.cancel),
-              title: Text("Back"),
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
       ),
       bottomNavigationBar: BottomNavBar(index: 0),
       extendBodyBehindAppBar: true,
@@ -131,6 +59,21 @@ class _HomeScreenState extends State<HomeScreen> {
               _BreakingNews(
                 articles: snapshot.data!["articles"],
                 username: username!,
+              ),
+
+              SizedBox(height: 20), // Spasi sebelum teks tambahan
+              Container(
+                color: Colors.teal, // Background warna teal
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Center(
+                  child: Text(
+                    'Halo, $username. This is Headlines News Today',
+                    textAlign: TextAlign.center, // Rata tengah
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.white), // Teks besar dan warna putih
+                  ),
+                ),
               ),
             ]);
           }
@@ -186,7 +129,7 @@ class _BreakingNews extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Breaking News',
+                'Giga News Today',
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
@@ -250,31 +193,6 @@ class _BreakingNews extends StatelessWidget {
               },
             ),
           ),
-          Container(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Image.asset('assets/images/Frame 12.png',
-                // height: 200, color: Colors.grey[700]),
-                SizedBox(height: 2),
-                // Text(
-                //   "Welcome to the Home Page, ${username}!",
-                //   style: GoogleFonts.montserrat(
-                //     fontSize: 24,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                //   textAlign: TextAlign.center,
-                // ),
-                SizedBox(height: 10),
-                Text(
-                  "We hope you see an amazing news here! ",
-                  style: TextStyle(fontSize: 16, color: Colors.grey[500]),
-                  textAlign: TextAlign.justify,
-                )
-              ],
-            ),
-          )
         ],
       ),
     );
@@ -283,10 +201,9 @@ class _BreakingNews extends StatelessWidget {
 
 class _NewsOfTheDay extends StatelessWidget {
   const _NewsOfTheDay({
-    super.key,
+    Key? key,
     required this.article,
-    // required this.articles,
-  });
+  }) : super(key: key);
 
   final List article;
 
@@ -294,58 +211,99 @@ class _NewsOfTheDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImageContainer(
-        height: MediaQuery.of(context).size.height * 0.45,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20.0),
-        imageUrl: article[0]["urlToImage"] ?? "",
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+    String? imageUrl = '';
+
+    // Cari artikel pertama yang memiliki gambar
+    for (var article in article) {
+      if (article["urlToImage"] != null && article["title"] != null) {
+        imageUrl = article["urlToImage"];
+        break;
+      }
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomTag(
-                backgroundColor: Colors.grey.withAlpha(150),
-                children: [
-                  Text(
-                    'News of the Day',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white,
-                        ),
+              const SizedBox(height: 80),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(article[0]["urlToImage"] ?? ""),
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                article[0]["title"] ?? "",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    height: 1.25,
-                    color: Colors.white),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    ArticleScreen.routeName,
-                    arguments: article[index],
-                  );
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      'Learn More',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Text(
+                          article[0]["title"] ?? "",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ArticleScreen.routeName,
+                            arguments: article[0],
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
                             color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.teal),
                           ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Icon(
-                      Icons.arrow_right_alt,
-                      color: Colors.white,
-                    ),
-                  ],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(
+                                'Read More',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(
+                                      color: Colors.teal,
+                                    ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Icon(
+                                Icons.arrow_right_alt,
+                                color: Colors.teal,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ]));
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

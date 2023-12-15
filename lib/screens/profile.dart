@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tgs_pemrograman_mobile/screens/change_profile.dart';
+import 'package:tgs_pemrograman_mobile/screens/login_screen.dart';
 import 'package:tgs_pemrograman_mobile/widgets/bottom_nav_bar.dart';
 
 class Profile extends StatefulWidget {
@@ -42,35 +43,34 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  // Future<void> _clearProfileData() async {
-  //   _prefs = await SharedPreferences.getInstance();
-  //   await _prefs.remove('email');
-  //   await _prefs.remove('age');
-  //   await _prefs.remove('address');
-  //   // await _prefs.remove('username');
-  //   // await _prefs.remove('password');
-  // }
-
   Widget _buildProfileCard(String title, String value) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: title == 'Password'
-            ? Text(
-                '*' * value.length, // Replaces password text with asterisks
-                style: TextStyle(fontSize: 14),
-              )
-            : Text(
-                value,
-                style: TextStyle(fontSize: 14),
+      margin: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
+            ),
+            Flexible(
+              child: title == 'Password'
+                  ? Text(
+                      '*' * value.length,
+                      style: TextStyle(fontSize: 16),
+                    )
+                  : Text(
+                      value,
+                      style: TextStyle(fontSize: 16),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -82,30 +82,44 @@ class _ProfileState extends State<Profile> {
         title: Text('Profile'),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(15.0),
         children: [
           Center(
             child: CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/images/profil.jpeg'),
+              radius: 70,
+              backgroundImage: AssetImage('assets/images/developer.jpeg'),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           _buildProfileCard('Username', _username),
           _buildProfileCard('Password', _password),
           _buildProfileCard('Email', _email),
-          _buildProfileCard('Age', _age),
-          _buildProfileCard('Address', _address),
+          _buildProfileCard('Umur', _age),
+          _buildProfileCard('Alamat', _address),
           SizedBox(height: 20),
           Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChangeProfile()),
-                );
-              },
-              child: Text('Edit Profile'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangeProfile()),
+                    );
+                  },
+                  child: Text('Edit Profile'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                  child: Text('Log out'),
+                ),
+              ],
             ),
           ),
         ],
